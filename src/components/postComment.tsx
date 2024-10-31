@@ -6,11 +6,14 @@ const PostComment: React.FC = () => {
     const handleFinish = async (values: { comment: string }) => {
         try {
             const response = await userApiInstance.post("/comment");
-            message.success('Comment submitted successfully!');
-            console.log('Comment submitted:', values.comment);
+            if (response.status === 200) {
+                message.success('Comment submitted successfully!');
+            } else {
+                message.error(`Error ${response.status}: ${response.statusText}`);
+            }
         } catch (error) {
-            message.error('Failed to submit comment. Please try again.');
             console.error('Error submitting comment:', error);
+            message.error('Failed to submit comment. Please check your input and try again.');
         }
     };
 
